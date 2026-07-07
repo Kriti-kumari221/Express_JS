@@ -1,0 +1,49 @@
+<style>
+
+body{
+    background:#f5f7fb;
+    font-family:Arial;
+}
+
+.card{
+    width:500px;
+    margin:80px auto;
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 5px 15px rgba(0,0,0,.15);
+}
+
+h1{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+p{
+    font-size:18px;
+    margin:15px 0;
+}
+
+a{
+    display:inline-block;
+    margin-top:20px;
+    background:#007bff;
+    color:white;
+    padding:10px 18px;
+    text-decoration:none;
+    border-radius:8px;
+}
+
+</style>
+
+<div class="card">
+
+<h1>Comment Details</h1>
+
+<p><strong>User:</strong> <%= comment.user %></p>
+
+<p><strong>Comment:</strong> <%= comment.text %></p>
+
+<a href="/comments">⬅ Back</a>
+
+</div>

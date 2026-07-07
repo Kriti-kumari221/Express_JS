@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>New Comment</title>
+</head>
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial;
+}
+
+body{
+    background:#eef2f7;
+}
+
+.container{
+    width:450px;
+    margin:70px auto;
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 5px 15px rgba(0,0,0,.15);
+}
+
+h1{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+input,
+textarea{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    margin-bottom:20px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    font-size:16px;
+}
+
+textarea{
+    height:140px;
+    resize:none;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:#007bff;
+    color:white;
+    font-size:17px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#0056b3;
+}
+
+a{
+    display:block;
+    margin-top:20px;
+    text-align:center;
+    text-decoration:none;
+}
+
+</style>
+<body>
+<h1>Add Comment</h1>
+<form action="/comments/new" method="POST">
+
+    <input
+        type="text"
+        name="user"
+        placeholder="Username">
+
+    <br><br>
+
+    <textarea
+        name="text"
+        placeholder="Write comment"></textarea>
+
+    <br><br>
+
+    <button type="submit">
+        Add Comment
+    </button>
+
+</form>
+
+</body>
+</html>
