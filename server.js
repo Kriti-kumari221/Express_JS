@@ -46,12 +46,10 @@ app.get("/comments/new", (req, res) => {
 // ======================
 app.post("/comments/new", async (req, res) => {
   const { user, text } = req.body;
-
   await Comment.create({
     user,
     text,
   });
-
   res.redirect("/comments");
 });
 
@@ -60,11 +58,6 @@ app.post("/comments/new", async (req, res) => {
 // ======================
 app.get("/comments/:id", async (req, res) => {
   const comment = await Comment.findById(req.params.id);
-
-  if (!comment) {
-    return res.send("Comment not found");
-  }
-
   res.render("show", { comment });
 });
 
@@ -73,11 +66,6 @@ app.get("/comments/:id", async (req, res) => {
 // ======================
 app.get("/comments/:id/edit", async (req, res) => {
   const comment = await Comment.findById(req.params.id);
-
-  if (!comment) {
-    return res.send("Comment not found");
-  }
-
   res.render("edit", { comment });
 });
 
@@ -86,7 +74,6 @@ app.get("/comments/:id/edit", async (req, res) => {
 // ======================
 app.patch("/comments/:id", async (req, res) => {
   const { user, text } = req.body;
-
   await Comment.findByIdAndUpdate(req.params.id, {
     user,
     text,
@@ -101,10 +88,10 @@ app.patch("/comments/:id/like", async (req, res) => {
     );
     res.redirect("/comments");
 });
-app.patch("/comments/:id/like",async(req,res)=>{
+app.patch("/comments/:id/dislike",async(req,res)=>{
     await Comment.findByIdAndUpdate(
         req.params.id,
-        {$dec:{like:0}}
+        {$inc:{dislike:-1}}
     );
     res.redirect("/comments")
 })

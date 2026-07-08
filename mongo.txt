@@ -1,0 +1,48 @@
+{
+    name:"Kriti",
+    department:"Sale",
+    age: 45,
+    salary:65000,
+    city:"Mumbai",
+    skills:["Sales", "Negotiation"]
+},
+{
+    name:"Kriti",
+    department:"Sale",
+    age: 45,
+    salary:85000,
+    city:"Mumbai",
+    skills:["Sales", "Negotiation"]
+},
+{
+    name:"Kriti",
+    department:"Sale",
+    age: 45,
+    salary:75000,
+    city:"Mumbai",
+    skills:["Sales", "Negotiation"]
+},
+{
+    name:"Kriti",
+    department:"Sale",
+    age: 45,
+    salary:95000,
+    city:"Mumbai",
+    skills:["Sales", "Negotiation"]
+}
+
+db.Employees.aggregate([
+    {
+        $match:{
+            department: "Sales"
+        }
+    }
+])
+
+dp.Employees.aggregate([
+    {
+        $project:{
+            salary:1
+        }
+    }
+])
