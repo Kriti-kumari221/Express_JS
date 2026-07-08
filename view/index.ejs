@@ -82,21 +82,14 @@
 <% for(const comment of comments){ %>
 
 <div class="card">
-
     <h3>👤 <%= comment.user %></h3>
-
     <p><%= comment.text %></p>
-
     <div class="actions">
-
-        <a class="show" href="/comments/<%= comment.id %>">Show</a>
-
-        <a class="edit" href="/comments/<%= comment.id %>/edit">Edit</a>
-
-        <form action="/comments/<%= comment.id %>?_method=DELETE"
+        <a class="show" href="/comments/<%= comment._id %>">Show</a>
+        <a class="edit" href="/comments/<%= comment._id %>/edit">Edit</a>
+        <form action="/comments/<%= comment._id %>?_method=DELETE"
               method="POST"
               style="display:inline;">
-
             <button class="delete">Delete</button>
 
         </form>

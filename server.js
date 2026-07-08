@@ -1,104 +1,111 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const path = require('path');
-const methodOverride = require('method-override');
-const { v4: uuid } = require('uuid');
+const path = require("path");
+const methodOverride = require("method-override");
+const mongoose = require("mongoose");
+
+const Comment = require("./models/Comments");
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
-app.use(methodOverride('_method'));
+app.use(methodOverride("_method"));
 
 // EJS Setup
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'view')); // Change to 'views' if your folder name is views
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "view"));
 
-// Dummy Data
-let comments = [
-    {
-        id: uuid(),
-        user: "Akshit",
-        text: "I am comment1"
-    },
-    {
-        id: uuid(),
-        user: "Akshitt",
-        text: "I am comment2"
-    },
-    {
-        id: uuid(),
-        user: "Akshittt",
-        text: "I am comment3"
-    },
-];
+// ======================
+// Database Connection
+// ======================
+mongoose
+  .connect("mongodb://localhost:27017/commentlpu")
+  .then(() => {
+    console.log("Database Connected");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
-// Show all comments
-app.get("/comments", (req, res) => {
-    res.render("index", { comments });
+// ======================
+// Show All Comments
+// ======================
+app.get("/comments", async (req, res) => {
+  const comments = await Comment.find();
+  res.render("index", { comments });
 });
 
+// ======================
 // New Comment Form
+// ======================
 app.get("/comments/new", (req, res) => {
-    res.render("new");
+  res.render("new");
 });
 
+// ======================
 // Add New Comment
-app.post("/comments/new", (req, res) => {
-    const { user, text } = req.body;
+// ======================
+app.post("/comments/new", async (req, res) => {
+  const { user, text } = req.body;
 
-    comments.push({
-        id: uuid(),
-        user,
-        text
-    });
+  await Comment.create({
+    user,
+    text,
+  });
 
-    res.redirect("/comments");
+  res.redirect("/comments");
 });
 
+// ======================
 // Show Single Comment
-app.get("/comments/:id", (req, res) => {
-    const commentid = req.params.id;
+// ======================
+app.get("/comments/:id", async (req, res) => {
+  const comment = await Comment.findById(req.params.id);
 
-    const comment = comments.find(c => c.id === commentid);
+  if (!comment) {
+    return res.send("Comment not found");
+  }
 
-    if (!comment) {
-        return res.send("Comment not found");
-    }
-
-    res.render("show", { comment });
+  res.render("show", { comment });
 });
 
+// ======================
 // Edit Form
-app.get("/comments/:id/edit", (req, res) => {
-    const commentid = req.params.id;
-    const comment = comments.find(c => c.id === commentid);
-    // if (!comment) {
-    //     return res.send("Comment not found");
-    // }
-    res.render("edit", { comment });
+// ======================
+app.get("/comments/:id/edit", async (req, res) => {
+  const comment = await Comment.findById(req.params.id);
+
+  if (!comment) {
+    return res.send("Comment not found");
+  }
+
+  res.render("edit", { comment });
 });
 
+// ======================
 // Update Comment
-app.patch("/comments/:id", (req, res) => {
-    const commentid = req.params.id;
-    const comment = comments.find(c => c.id === commentid);
-    // if (!comment) {
-    //     return res.send("Comment not found");
-    // }
-    comment.user = req.body.user;
-    comment.text = req.body.text;
+// ======================
+app.patch("/comments/:id", async (req, res) => {
+  const { user, text } = req.body;
 
-    res.redirect("/comments");
+  await Comment.findByIdAndUpdate(req.params.id, {
+    user,
+    text,
+  });
+
+  res.redirect("/comments");
 });
 
+// ======================
 // Delete Comment
-app.delete("/comments/:id", (req, res) => {
-    const commentid = req.params.id;
-    comments = comments.filter(c => c.id !== commentid);
-    res.redirect("/comments");
+// ======================
+app.delete("/comments/:id", async (req, res) => {
+  await Comment.findByIdAndDelete(req.params.id);
+
+  res.redirect("/comments");
 });
-
-
+// ======================
 // Server
+// ======================
 app.listen(4400, () => {
-    console.log("Server is running on port 4400");
+  console.log("Server Running on Port 4400");
 });
