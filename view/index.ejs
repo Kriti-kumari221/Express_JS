@@ -93,9 +93,10 @@
             <button class="delete">Delete</button>
 
         </form>
-
+        <form action="/comments/<%= comment._id %>/like?_method=PATCH" method="POST">
+    <button><h4 style="color: #333;">❤️ Likes: <%= comment.likes %></h4></button>
+</form>
     </div>
-
 </div>
 
 <% } %>

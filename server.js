@@ -94,6 +94,20 @@ app.patch("/comments/:id", async (req, res) => {
 
   res.redirect("/comments");
 });
+app.patch("/comments/:id/like", async (req, res) => {
+    await Comment.findByIdAndUpdate(
+        req.params.id,
+        { $inc: { likes: 1 } }
+    );
+    res.redirect("/comments");
+});
+app.patch("/comments/:id/like",async(req,res)=>{
+    await Comment.findByIdAndUpdate(
+        req.params.id,
+        {$dec:{like:0}}
+    );
+    res.redirect("/comments")
+})
 
 // ======================
 // Delete Comment
